@@ -12,10 +12,21 @@ export class PokeApiService {
   constructor(private http: HttpClient) { }
 
   get apiListAllPokemons(): Observable<any> {
-    return this.http.get<any>(this.url).pipe(
-      map(res => res.results.filter((value: {name: string, url: string}) => value.name.startsWith('b'))),
-      tap(console.log),
-    )
+    return this.http.get<any>(this.url)
+      .pipe(
+        tap(res => res),
+        tap(res => {
+          res.results.map((resPokemons: any) => {
+            this.apiGetPokemons(resPokemons.url)
+              .subscribe(res => Object.assign(resPokemons, {status: res}))
+          })
+        }),
+      )
+  }
+
+  public apiGetPokemons(url: string): Observable<any> {
+    return this.http.get<any>(url)
+      .pipe(map(res => res))
   }
 
 }
