@@ -17,6 +17,8 @@ $padding-20: rem-calc.rem-calc(20);
     border-radius: rem-calc.rem-calc(10);
     padding: $padding-20;
     margin-bottom: rem-calc.rem-calc(10);
+    text-decoration: none;
+    color: var(--primary-color);
 
     &__status {
       h2 {
