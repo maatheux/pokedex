@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-poke-search',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokeSearchComponent implements OnInit {
 
+  @Output() public emitSearch: EventEmitter<string> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public searchPokemon(value: string) {
+    this.emitSearch.emit(value);
   }
 
 }
