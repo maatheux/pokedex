@@ -16,7 +16,7 @@ export class PokeListComponent implements OnInit {
   constructor(private pokeApiService: PokeApiService) { }
 
   ngOnInit(): void {
-    this.pokeApiService.apiListAllPokemons.subscribe({
+    this.pokeApiService.apiListAllPokemons().subscribe({
       next: res => {
         this.getAllPokemons = res.results;
       },
@@ -25,7 +25,7 @@ export class PokeListComponent implements OnInit {
   }
 
   public getFilteredPokemonList(event: any){
-    this.pokeApiService.apiListAllPokemons.subscribe({
+    this.pokeApiService.apiListAllPokemons().subscribe({
       next: res => {
         this.getAllPokemons = res.results.filter((value: any) => value.name.includes(event));
       },

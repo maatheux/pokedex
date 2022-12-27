@@ -2,6 +2,7 @@
 @use './config-scss/reset.scss';
 @use './config-scss/rem-calc.scss' as rem-calc;
 @use './config-scss/btn.scss';
+@use './config-scss/animation.scss';
 
 html {
   font-family: 'Roboto', sans-serif;
