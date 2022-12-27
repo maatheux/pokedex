@@ -37,9 +37,13 @@
   </ng-template>
 
   <img
-    src="assets/error.png"
+    src="assets/error.svg"
     alt="Pokemon image not found"
     width="100%"
     *ngIf="apiError"
   >
+
+  <a [routerLink]="['']" class="btn btn__secondary" *ngIf="apiError">
+    Back
+  </a>
 </main>
