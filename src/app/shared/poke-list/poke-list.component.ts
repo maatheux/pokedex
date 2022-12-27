@@ -1,3 +1,4 @@
+import { tap, filter } from 'rxjs';
 import { PokeApiService } from './../../service/poke-api.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -16,6 +17,15 @@ export class PokeListComponent implements OnInit {
     this.pokeApiService.apiListAllPokemons.subscribe({
       next: res => {
         this.getAllPokemons = res.results;
+        console.log(this.getAllPokemons);
+      },
+    });
+  }
+
+  public getFilteredPokemonList(event: any){
+    this.pokeApiService.apiListAllPokemons.subscribe({
+      next: res => {
+        this.getAllPokemons = res.results.filter((value: any) => value.name.includes(event));
         console.log(this.getAllPokemons);
       },
     });
