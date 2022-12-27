@@ -5,6 +5,9 @@
 html {
   font-family: 'Roboto', sans-serif;
   background-color: var(--primary-color);
+  width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 main {
