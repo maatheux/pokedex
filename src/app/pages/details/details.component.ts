@@ -13,6 +13,11 @@ export class DetailsComponent implements OnInit {
   private urlPokemon = 'https://pokeapi.co/api/v2/pokemon';
   private urlName = 'https://pokeapi.co/api/v2/pokemon-species';
 
+  public pokemon: any;
+
+  public isLoading = false;
+  public apiError = false;
+
   constructor(private activatedRoute: ActivatedRoute, private pokeService: PokeApiService) { }
 
   ngOnInit(): void {
@@ -27,8 +32,10 @@ export class DetailsComponent implements OnInit {
 
     return forkJoin([pokemon, name]).subscribe({
       next: res => {
-        console.log(res);
-      }
+        this.pokemon = res;
+      },
+      error: () => this.apiError = true,
+      complete: () => this.isLoading = true,
     }) // forkjoin permite que usemos menos subscribe
   }
 
