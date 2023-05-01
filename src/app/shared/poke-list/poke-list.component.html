@@ -1,6 +1,11 @@
 <app-poke-search (emitSearch)="getFilteredPokemonList($event)"></app-poke-search>
 
-<section class="list">
+<section
+  class="list"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  (scrolled)="onScroll()"
+>
   <ng-template ngFor let-pokemon [ngForOf]="getAllPokemons">
     <a [routerLink]="[ 'details', pokemon.status.id]" class="pokemon fadeIn" *ngIf="pokemon.status">
       <section class="pokemon__status">

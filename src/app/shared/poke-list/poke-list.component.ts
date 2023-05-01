@@ -33,4 +33,8 @@ export class PokeListComponent implements OnInit {
     });
   }
 
+  public  onScroll() {
+    console.log('scrolled!!');
+  }
+
 }
