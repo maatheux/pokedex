@@ -9,32 +9,78 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokeListComponent implements OnInit {
 
-  public getAllPokemons: any;
+  private offset: number = 0;
+  private limit: number = 50;
+
+  public getAllPokemons: any[] = [];
 
   public apiError = false;
+
+  private filteredTimeout: any;
+
+  private scrollable = true;
 
   constructor(private pokeApiService: PokeApiService) { }
 
   ngOnInit(): void {
-    this.pokeApiService.apiListAllPokemons().subscribe({
+    this.GetPokemons();
+  }
+
+  public GetPokemons() {
+    this.pokeApiService.apiListAllPokemons(this.offset, this.limit).subscribe({
       next: res => {
-        this.getAllPokemons = res.results;
+        this.getAllPokemons.push(...res.results);
       },
       error: () => this.apiError = true,
+      complete: () => this.offset += 25
     });
   }
 
   public getFilteredPokemonList(event: any){
-    this.pokeApiService.apiListAllPokemons().subscribe({
+    this.offset = 0;
+    this.limit = 50;
+    this.getAllPokemons = [];
+
+    if (event === '') {
+      this.scrollable = true;
+      return this.GetPokemons();
+    };
+
+    this.scrollable = false
+
+    clearTimeout(this.filteredTimeout);
+    this.filteredTimeout = setTimeout(() => {
+      this.GetFilteredPokemonListCall(event);
+    }, 1000);
+  }
+
+  private GetFilteredPokemonListCall(event: any) {
+    this.pokeApiService.apiListAllPokemons(this.offset, this.limit).subscribe({
       next: res => {
-        this.getAllPokemons = res.results.filter((value: any) => value.name.includes(event));
+        this.getAllPokemons.push(...res.results.filter((value: any) => value.name.includes(event)));
+        this.getAllPokemons = [...new Set(this.getAllPokemons)];
+
+        this.offset += 100;
+        this.limit = 100;
       },
       error: () => this.apiError = true,
+      complete: () => {
+        if (this.offset <= 1300) {
+          setTimeout(() => {
+            this.GetFilteredPokemonListCall(event);
+          }, 200);
+        };
+      }
     });
   }
 
-  public  onScroll() {
-    console.log('scrolled!!');
+  public onScroll() {
+    if (this.scrollable) {
+      this.offset += 25;
+      this.limit = 25;
+
+      this.GetPokemons();
+    }
   }
 
 }
